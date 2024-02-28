@@ -1,5 +1,7 @@
 package com.example.jpa.resources;
 import com.example.jpa.entities.User;
+import com.example.jpa.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,9 +11,18 @@ import java.util.List;
 @RequestMapping(value = "/users")
 public class UserResources {
 
-    @GetMapping
-    public ResponseEntity<String> findAll() {
+    @Autowired
+    private UserService service;
 
-        return ResponseEntity.ok().body("test");
+    @GetMapping
+    public ResponseEntity<List<User>> findAll() {
+        List<User> list = service.findAll();
+        return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<User> findById(@PathVariable Long id) {
+        User user = service.findById(id);
+        return ResponseEntity.ok().body(user);
     }
 }
