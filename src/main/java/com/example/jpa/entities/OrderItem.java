@@ -1,15 +1,19 @@
 package com.example.jpa.entities;
 
+import java.io.Serial;
 import java.io.Serializable;
 import com.example.jpa.entities.pk.OrderItemPK;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor
 @Table(name = "tb_order_item")
 public class OrderItem implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @EmbeddedId
@@ -17,9 +21,6 @@ public class OrderItem implements Serializable {
 
     private Integer quantity;
     private Double price;
-
-    public OrderItem() {
-    }
 
     public OrderItem(Order order, Product product, Integer quantity, Double price) {
         super();

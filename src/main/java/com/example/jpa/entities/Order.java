@@ -2,6 +2,7 @@ package com.example.jpa.entities;
 
 import com.example.jpa.entities.enums.OrderStatus;
 import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -9,6 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@NoArgsConstructor
 @Table(name = "tb_order")
 public class Order implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -26,9 +28,6 @@ public class Order implements Serializable {
 
     @OneToMany(mappedBy = "id.order")
     private Set<OrderItem> items = new HashSet<>();
-
-    public Order() {
-    }
 
     public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
         super();
@@ -74,6 +73,14 @@ public class Order implements Serializable {
 
     public Set<OrderItem> getItems() {
         return items;
+    }
+
+    public Double getTotal() {
+        double sum = 0.0;
+        for (OrderItem x : items) {
+            sum += x.getSubTotal();
+        }
+        return sum;
     }
 
     @Override
